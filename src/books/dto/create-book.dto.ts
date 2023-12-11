@@ -9,7 +9,7 @@ export class CreateBookDto {
   })
   @IsUUID()
   @Length(36, 36)
-  	private book_UUID:'string';
+  	private UUID:'string';
 
   @ApiProperty({
     description: "This Field represents the book's name",
