@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,53 +8,61 @@ datasource db {
 }
 
 model HumanInformations {
-  UUID    String  @id(map: "humanInformation_pk") @unique() @default(uuid()) @db.Varchar(36)
-  first_name    String    @db.Varchar(20)
-  last_name     String    @db.Varchar(30)
+  UUID        String        @id @default(uuid()) @db.Uuid
+  first_name  String        @db.Varchar(20)
+  last_name   String        @db.Varchar(30)
+  Authors     Authors[]
+  Borrowers   Borrowers[]
+  Employees   Employees[]
 }
 
 model Authors {
-  UUID    String   @unique @id(map: "author_pk") @default(uuid()) @db.Varchar(36)
-  first_name    String    @db.Varchar(20)
-  last_name     String    @db.Varchar(30)
-  humanInformation    HumanInformations     @relation(map: "humanInformation_fk", fields: [first_name, last_name], references: [first_name, last_name])
+  UUID               String             @id @default(uuid()) @db.Uuid
+  humanInformationId String             @db.Uuid
+  first_name         String             @db.Varchar(20)
+  last_name          String             @db.Varchar(30)
+  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  Books              Books[]
 }
 
-model Borrowers{
-  UUID    String    @id(map: "borrower_pk") @unique() @default(uuid()) @db.Varchar(36)
-  first_name    String    @db.Varchar(20)
-  last_name     String    @db.Varchar(30)
-  humanInformation    HumanInformations     @relation(map: "humanInformation_fk" ,fields: [first_name, last_name], references: [first_name, last_name])
+model Borrowers {
+  UUID               String             @id @default(uuid()) @db.Uuid
+  humanInformationId String             @db.Uuid
+  first_name         String             @db.Varchar(20)
+  last_name          String             @db.Varchar(30)
+  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  Borrows            Borrows[]
 }
 
 model Employees {
-  UUID    String    @id(map: "employee_pk") @unique() @default(uuid()) @db.Varchar(36)
-  mail_adress    String    @db.Varchar(80)
-  password    String    @db.Varchar(72)
-  first_name    String    @db.Varchar(20)
-  last_name     String    @db.Varchar(30)
-  humanInformation    HumanInformations     @relation(map: "humanInformation_fk", fields: [first_name, last_name], references: [first_name, last_name])
+  UUID               String             @id @default(uuid()) @db.Uuid
+  mail_address       String             @db.Varchar(80)
+  password           String             @db.Varchar(72)
+  humanInformationId String             @db.Uuid
+  first_name         String             @db.Varchar(20)
+  last_name          String             @db.Varchar(30)
+  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  Borrows            Borrows[]
 }
 
 model Books {
-  UUID    String    @id(map: "books_pk") @unique() @default(uuid()) @db.Varchar(36)
-  name     String    @db.Varchar(40)
-  description    String    @db.Text(500)
-  author_UUID    String
-  borrow_UUID    String
-  author     Authors     @relation(map: "author_pk" ,fields: [author_UUID], references: [UUID])
-  borrow    Borrows     @relation(map: "borrow_pk" ,fields: [borrow_UUID], references: [UUID])
+  UUID          String   @id @default(uuid()) @db.Uuid
+  name          String   @db.Varchar(40)
+  description   String   @db.Text
+  authorId      String   @db.Uuid
+  borrowId      String   @db.Uuid
+  author        Authors  @relation(fields: [authorId], references: [UUID])
+  borrow        Borrows  @relation(fields: [borrowId], references: [UUID])
 }
 
 model Borrows {
-  UUID    String    @id(map: "borrow_pk") @unique() @default(uuid()) @db.Varchar(36)
-  status    Int     @db.Int
+  UUID          String      @id @default(uuid()) @db.Uuid
+  status        Int         @db.Int
   started_at    DateTime    @default(now())
-  end_at    DateTime    @default(now())
-  first_name    String    @db.Varchar(20)
-  last_name     String    @db.Varchar(30)
-  employee_UUID    String
-  borrower_UUID    String
-  employee    Employees     @relation(map: "employee_pk" ,fields: [employee_UUID], references: [UUID])
-  borrower    Borrowers     @relation(map: "borrower_pk" ,fields: [borrower_UUID], references: [UUID])
+  end_at        DateTime    @default(now())
+  employeeId    String      @db.Uuid
+  borrowerId    String      @db.Uuid
+  employee      Employees   @relation(fields: [employeeId], references: [UUID])
+  borrower      Borrowers   @relation(fields: [borrowerId], references: [UUID])
+  Books         Books[]
 }
