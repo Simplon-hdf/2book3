@@ -9,3 +9,55 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model HumanInformations {
+  UUID    String  @id(map: "humanInformation_pk") @unique() @default(uuid()) @db.Varchar(36)
+  first_name    String    @db.Varchar(20)
+  last_name     String    @db.Varchar(30)
+}
+
+model Authors {
+  UUID    String   @unique @id(map: "author_pk") @default(uuid()) @db.Varchar(36)
+  first_name    String    @db.Varchar(20)
+  last_name     String    @db.Varchar(30)
+  humanInformation    HumanInformations     @relation(map: "humanInformation_fk", fields: [first_name, last_name], references: [first_name, last_name])
+}
+
+model Borrowers{
+  UUID    String    @id(map: "borrower_pk") @unique() @default(uuid()) @db.Varchar(36)
+  first_name    String    @db.Varchar(20)
+  last_name     String    @db.Varchar(30)
+  humanInformation    HumanInformations     @relation(map: "humanInformation_fk" ,fields: [first_name, last_name], references: [first_name, last_name])
+}
+
+model Employees {
+  UUID    String    @id(map: "employee_pk") @unique() @default(uuid()) @db.Varchar(36)
+  mail_adress    String    @db.Varchar(80)
+  password    String    @db.Varchar(72)
+  first_name    String    @db.Varchar(20)
+  last_name     String    @db.Varchar(30)
+  humanInformation    HumanInformations     @relation(map: "humanInformation_fk", fields: [first_name, last_name], references: [first_name, last_name])
+}
+
+model Books {
+  UUID    String    @id(map: "books_pk") @unique() @default(uuid()) @db.Varchar(36)
+  name     String    @db.Varchar(40)
+  description    String    @db.Text(500)
+  author_UUID    String
+  borrow_UUID    String
+  author     Authors     @relation(map: "author_pk" ,fields: [author_UUID], references: [UUID])
+  borrow    Borrows     @relation(map: "borrow_pk" ,fields: [borrow_UUID], references: [UUID])
+}
+
+model Borrows {
+  UUID    String    @id(map: "borrow_pk") @unique() @default(uuid()) @db.Varchar(36)
+  status    Int     @db.Int
+  started_at    DateTime    @default(now())
+  end_at    DateTime    @default(now())
+  first_name    String    @db.Varchar(20)
+  last_name     String    @db.Varchar(30)
+  employee_UUID    String
+  borrower_UUID    String
+  employee    Employees     @relation(map: "employee_pk" ,fields: [employee_UUID], references: [UUID])
+  borrower    Borrowers     @relation(map: "borrower_pk" ,fields: [borrower_UUID], references: [UUID])
+}
