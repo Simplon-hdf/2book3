@@ -51,7 +51,7 @@ model Books {
 
 model Borrows {
   UUID          String      @id @default(uuid())
-  status        Int
+  status        borrowState @default(ONGOING)
   started_at    DateTime    @default(now())
   end_at        DateTime    @default(now())
   employeeId    String
@@ -59,4 +59,9 @@ model Borrows {
   employee      Employees   @relation(fields: [employeeId], references: [UUID])
   borrower      Borrowers   @relation(fields: [borrowerId], references: [UUID])
   Books         Books[]
+}
+
+enum borrowState {
+  ONGOING
+  CLOSED
 }
