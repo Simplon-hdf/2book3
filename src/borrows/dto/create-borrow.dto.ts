@@ -25,16 +25,8 @@ export class CreateBorrowsDto {
   @ApiProperty({
     description: 'This field represents the borrowing status',
     minLength: 1,
-    maxLength: 2,
+    maxLength: 1,
   })
   @IsInt()
   public status: number;
-
-  @ApiProperty({
-    description: 'This field represents the new borrow UUID',
-    minLength: 1,
-    maxLength: 20,
-  })
-  @IsUUID()
-  private UUID: string;
 }
