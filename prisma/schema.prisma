@@ -8,60 +8,54 @@ datasource db {
 }
 
 model HumanInformations {
-  UUID        String        @id @default(uuid()) @db.Uuid
-  first_name  String        @db.Varchar(20)
-  last_name   String        @db.Varchar(30)
+  UUID        String        @id @default(uuid())
+  first_name  String        @db.VarChar(20)
+  last_name   String        @db.VarChar(30)
   Authors     Authors[]
   Borrowers   Borrowers[]
   Employees   Employees[]
 }
 
 model Authors {
-  UUID               String             @id @default(uuid()) @db.Uuid
-  humanInformationId String             @db.Uuid
-  first_name         String             @db.Varchar(20)
-  last_name          String             @db.Varchar(30)
+  UUID               String             @id @default(uuid())
+  humanInformationId String             @unique
   humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
   Books              Books[]
 }
 
 model Borrowers {
-  UUID               String             @id @default(uuid()) @db.Uuid
-  humanInformationId String             @db.Uuid
-  first_name         String             @db.Varchar(20)
-  last_name          String             @db.Varchar(30)
+  UUID               String             @id @default(uuid())
+  humanInformationId String             @unique
   humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
   Borrows            Borrows[]
 }
 
 model Employees {
-  UUID               String             @id @default(uuid()) @db.Uuid
-  mail_address       String             @db.Varchar(80)
-  password           String             @db.Varchar(72)
-  humanInformationId String             @db.Uuid
-  first_name         String             @db.Varchar(20)
-  last_name          String             @db.Varchar(30)
+  UUID               String             @id @default(uuid())
+  mail_address       String             @db.VarChar(80)
+  password           String             @db.VarChar(72)
+  humanInformationId String             @unique
   humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
   Borrows            Borrows[]
 }
 
 model Books {
-  UUID          String   @id @default(uuid()) @db.Uuid
-  name          String   @db.Varchar(40)
-  description   String   @db.Text
-  authorId      String   @db.Uuid
-  borrowId      String   @db.Uuid
+  UUID          String   @id @default(uuid())
+  name          String   @db.VarChar(40)
+  description   String
+  authorId      String
+  borrowId      String?
   author        Authors  @relation(fields: [authorId], references: [UUID])
-  borrow        Borrows  @relation(fields: [borrowId], references: [UUID])
+  borrow        Borrows?  @relation(fields: [borrowId], references: [UUID])
 }
 
 model Borrows {
-  UUID          String      @id @default(uuid()) @db.Uuid
-  status        Int         @db.Int
+  UUID          String      @id @default(uuid())
+  status        Int
   started_at    DateTime    @default(now())
   end_at        DateTime    @default(now())
-  employeeId    String      @db.Uuid
-  borrowerId    String      @db.Uuid
+  employeeId    String
+  borrowerId    String
   employee      Employees   @relation(fields: [employeeId], references: [UUID])
   borrower      Borrowers   @relation(fields: [borrowerId], references: [UUID])
   Books         Books[]
