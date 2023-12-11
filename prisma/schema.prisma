@@ -18,15 +18,15 @@ model HumanInformations {
 
 model Authors {
   UUID               String             @id @default(uuid())
-  humanInformationId String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  humanInformation_uuid String             @unique
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
   Books              Books[]
 }
 
 model Borrowers {
   UUID               String             @id @default(uuid())
-  humanInformationId String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  humanInformation_uuid String             @unique
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
   Borrows            Borrows[]
 }
 
@@ -34,8 +34,8 @@ model Employees {
   UUID               String             @id @default(uuid())
   mail_address       String             @db.VarChar(80)
   password           String             @db.VarChar(72)
-  humanInformationId String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformationId], references: [UUID])
+  humanInformation_uuid String             @unique
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
   Borrows            Borrows[]
 }
 
@@ -43,10 +43,10 @@ model Books {
   UUID          String   @id @default(uuid())
   name          String   @db.VarChar(40)
   description   String
-  authorId      String
-  borrowId      String?
-  author        Authors  @relation(fields: [authorId], references: [UUID])
-  borrow        Borrows?  @relation(fields: [borrowId], references: [UUID])
+  author_uuid      String
+  borrow_uuid      String?
+  author        Authors  @relation(fields: [author_uuid], references: [UUID])
+  borrow        Borrows?  @relation(fields: [borrow_uuid], references: [UUID])
 }
 
 model Borrows {
@@ -54,10 +54,10 @@ model Borrows {
   status        borrowState @default(ONGOING)
   started_at    DateTime    @default(now())
   end_at        DateTime    @default(now())
-  employeeId    String
-  borrowerId    String
-  employee      Employees   @relation(fields: [employeeId], references: [UUID])
-  borrower      Borrowers   @relation(fields: [borrowerId], references: [UUID])
+  employee_uuid    String
+  borrower_uuid    String
+  employee      Employees   @relation(fields: [employee_uuid], references: [UUID])
+  borrower      Borrowers   @relation(fields: [borrower_uuid], references: [UUID])
   Books         Books[]
 }
 
