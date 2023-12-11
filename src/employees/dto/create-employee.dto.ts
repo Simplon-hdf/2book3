@@ -5,7 +5,7 @@ export class CreateEmployeeDto {
 
     
     @ApiProperty({
-        description: 'This field represents the new user firstname',
+        description: 'This field represents the employee firstname',
         minLength: 1,
         maxLength: 20,
       })
@@ -14,7 +14,7 @@ export class CreateEmployeeDto {
     public firstName: string;
 
     @ApiProperty({
-        description: 'This field represents the new user lastname',
+        description: 'This field represents the employee lastname',
         minLength: 1,
         maxLength: 30,
       })
@@ -23,7 +23,7 @@ export class CreateEmployeeDto {
     public lastName: string;
 
     @ApiProperty({
-        description: 'This field represents the new user password',
+        description: 'This field represents the employee password',
         minLength: 72,
         maxLength: 72,
       })
@@ -32,7 +32,7 @@ export class CreateEmployeeDto {
     public password: string;
 
     @ApiProperty({
-        description: 'This field represents the new user email',
+        description: 'This field represents the employee email',
         minLength: 1,
         maxLength: 20,
       })
