@@ -4,60 +4,79 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { PrismaService } from 'src/prisma.service';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
-
+import  NormalizedResponse from "src/utils/normalized.response";
 
 @Injectable()
-export class EmployeeService {
-  constructor(private readonly prisma: PrismaService) {}
+  export class EmployeeService {
+    constructor(private readonly prisma: PrismaService) {}
+  
+    public async create(createEmployeeDto: CreateEmployeeDto, createHumanInformationDto: CreateHumanInformationDto) {
+      const humanInformation = await this.prisma.humanInformations.create({
+        data: {
+          first_name: createHumanInformationDto.first_name,
+          last_name: createHumanInformationDto.last_name,
+        },
+      });
+  
+      const employee = await this.prisma.employees.create({
+        data: {
+          mail_address: createEmployeeDto.mail,
+          password: createEmployeeDto.password,
+          humanInformation_uuid: humanInformation.UUID,
+        },
+      });
+  
+      const createEmployeeResponse = new NormalizedResponse(
+        `Employee ${employee.UUID} has been created`,
+        employee
+      );
+      return createEmployeeResponse.toJSON();
+    }
 
-  public async create(createEmployeeDto: CreateEmployeeDto, CreateHumanInformationDto: CreateHumanInformationDto) {
-    const humanInformation = await this.prisma.humanInformations.create({
-      data: {
-        first_name: CreateHumanInformationDto.first_name,
-        last_name: CreateHumanInformationDto.last_name,
-      },
-    });
+    public async getByUUID(uuid: string) {
+      const employee = await this.prisma.employees.findUnique({
+        where: {
+          UUID: uuid,
+        },
+      });
+    
+      if (!employee) {
+        return new NormalizedResponse(`Employee not found with UUID: ${uuid}`, null).toJSON();
+      }
+    
+      return new NormalizedResponse(`Employee found with UUID: ${uuid}`, employee).toJSON();
+    }
+    
 
-    return await this.prisma.employees.create({
-      data: {
-        mail_address: createEmployeeDto.mail,
-        password: createEmployeeDto.password,
-        humanInformation_uuid: humanInformation.UUID,
-      },
-    });
-  }
-
-  public async getByUUID(uuid: string) {
-    return await this.prisma.employees.findUnique({
-      where: {
-        UUID: uuid,
-      },
-    });
-  }
-
-  public async update(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
-    await this.prisma.humanInformations.update({
+    public async update(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
+      await this.prisma.humanInformations.update({
         where: { UUID: uuid },
         data: {
-            first_name: updateHumanInformationDto.first_name,
-            last_name: updateHumanInformationDto.last_name,
+          first_name: updateHumanInformationDto.first_name,
+          last_name: updateHumanInformationDto.last_name,
         },
-    });
-
-    return await this.prisma.employees.update({
+      });
+    
+      const updatedEmployee = await this.prisma.employees.update({
         where: { UUID: uuid },
         data: {
-            mail_address: updateEmployeeDto.mail,
-            password: updateEmployeeDto.password,
+          mail_address: updateEmployeeDto.mail,
+          password: updateEmployeeDto.password,
         },
-    });
-}
+      });
+    
+      return new NormalizedResponse(`Employee updated with UUID: ${uuid}`, updatedEmployee).toJSON();
+    }
+    
 
-public async deleteByUUID(uuid: string) {
-  return await this.prisma.employees.delete({
-    where: {
-      UUID: uuid,
-    },
-  });
-}
+    public async deleteByUUID(uuid: string) {
+      const deletedEmployee = await this.prisma.employees.delete({
+        where: {
+          UUID: uuid,
+        },
+      });
+    
+      return new NormalizedResponse(`Employee deleted with UUID: ${uuid}`, deletedEmployee).toJSON();
+    }
+    
 }
