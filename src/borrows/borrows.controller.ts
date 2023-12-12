@@ -13,22 +13,22 @@ export class BorrowsController {
   }
 
   @Get()
-  findAll() {
-    return this.borrowsService.findAll();
+  public getByUUID(
+  @Param('UUID') uuid: string ) {
+    return this.borrowsService.getByUUID(uuid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.borrowsService.findOne(+id);
+
+  @Patch()
+  updateByUUID(
+    @Param('UUID') UUID: string, 
+    @Body() updateBorrowDto: UpdateBorrowDto) {
+    return this.borrowsService.updateByUUID(UUID, updateBorrowDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBorrowDto: UpdateBorrowDto) {
-    return this.borrowsService.update(+id, updateBorrowDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.borrowsService.remove(+id);
+  @Delete()
+  deleteByUUID(
+    @Param('UUID') UUID: string) {
+    return this.borrowsService.deleteByUUID(UUID);
   }
 }
