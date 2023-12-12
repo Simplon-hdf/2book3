@@ -63,7 +63,7 @@ import * as bcrypt from 'bcrypt';
         where: { UUID: uuid },
         data: {
           mail_address: updateEmployeeDto.mail,
-          password: updateEmployeeDto.password,
+          password: await bcrypt.hash(updateEmployeeDto.password, this.saltGenRound),
         },
       });
     
