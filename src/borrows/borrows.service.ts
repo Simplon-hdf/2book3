@@ -1,26 +1,72 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 import { UpdateBorrowDto } from './dto/update-borrow.dto';
+import NormalizedResponse from 'src/utils/normalized.response';
 
 @Injectable()
 export class BorrowsService {
-  create(createBorrowDto: CreateBorrowDto) {
-    return 'This action adds a new borrow';
+    constructor (private readonly prisma: PrismaService){}
+
+  public async create(createBorrowDto: CreateBorrowDto) {
+    const createdBorrow = new NormalizedResponse(
+      `Borrow has been created`,
+    
+    await this.prisma.borrows.create({
+      data: {
+        started_at: createBorrowDto.started_at,
+        end_at: createBorrowDto.end_at,
+        status: createBorrowDto.status,
+        employee: {
+          connect: {
+            UUID: createBorrowDto.employee_uuid,
+          },
+        },
+        borrower: {
+          connect: {
+            UUID: createBorrowDto.borrower_uuid,
+          },
+        },
+      },
+    }),
+    );
+    return createdBorrow.toJSON
   }
 
-  findAll() {
-    return `This action returns all borrows`;
+  public async getByUUID(uuid: string) {
+    return await this.prisma.borrows.findUnique({
+      where: {
+        UUID: uuid,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} borrow`;
+  public async updateByUUID(uuid: string, updateBorrowDto: UpdateBorrowDto) {
+    const updatedBorrow = new NormalizedResponse(
+      `Borrow has been updated`,
+        await this.prisma.borrows.update({
+      where: {
+        UUID: uuid,
+      },
+      data: {
+        started_at: updateBorrowDto.started_at,
+        end_at: updateBorrowDto.end_at,
+        status: updateBorrowDto.status,
+      },
+    }),
+    );
+    return updatedBorrow.toJSON
   }
 
-  update(id: number, updateBorrowDto: UpdateBorrowDto) {
-    return `This action updates a #${id} borrow`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} borrow`;
+  public async deleteByUUID(uuid: string) {
+    const deletedBorrow = new NormalizedResponse(
+      `Borrow has been deleted`,
+     await this.prisma.borrows.delete({
+      where: {
+        UUID: uuid,
+      },
+    }),
+    );
+    return deletedBorrow.toJSON
   }
 }

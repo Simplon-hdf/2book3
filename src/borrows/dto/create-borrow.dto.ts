@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsInt, Length } from 'class-validator';
+import { borrowState } from "@prisma/client";
+import { IsDate, IsInt, Length, IsUUID } from 'class-validator';
 
 export class CreateBorrowDto {
 
@@ -27,5 +28,23 @@ export class CreateBorrowDto {
     maxLength: 1,
   })
   @IsInt()
-  public status: number;
+  public status: borrowState;
+
+  @ApiProperty({
+    description: 'This field represents the employee uuid',
+    minLength: 36,
+    maxLength: 36,
+  })
+  @IsUUID()
+  @Length(36,36)
+  public employee_uuid: string;
+
+  @ApiProperty({
+    description: 'This field represents the borrower uuid',
+    minLength: 36,
+    maxLength: 36,
+  })
+  @IsUUID()
+  @Length(36,36)
+  public borrower_uuid: string;
 }
