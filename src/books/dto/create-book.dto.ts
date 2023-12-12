@@ -9,7 +9,7 @@ export class CreateBookDto {
   })
   @IsUUID()
   @Length(36, 36)
-  	private UUID:'string';
+  	public UUID:'string';
 
   @ApiProperty({
     description: "This Field represents the book's name",
@@ -28,4 +28,22 @@ export class CreateBookDto {
   @IsString()
   @Length(2, 500)
   	public description: 'string';
+
+    @ApiProperty({
+      description: 'This Field represents the borrow UUID',
+      minLength: 36,
+      maxLength: 36,
+    })
+    @IsUUID()
+    @Length(36, 36)
+      public borrow_UUID:'string';
+    
+      @ApiProperty({
+        description: 'This Field represents the author UUID',
+        minLength: 36,
+        maxLength: 36,
+      })
+      @IsUUID()
+      @Length(36, 36)
+        public author_UUID:'string';
 }
