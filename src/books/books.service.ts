@@ -9,8 +9,6 @@ import NormalizedResponse from 'src/utils/normalized.response';
 export class BooksService {
   constructor(private readonly prisma: PrismaService) { }
 
-
-
   public async create(createBookDto: CreateBookDto) {
     const createBook = new NormalizedResponse(
       `Book ${createBookDto.name} has been created`,
@@ -52,8 +50,6 @@ export class BooksService {
     );
     return updateBook.toJSON();
   };
-
-
 
   public async getByUUID(uuid: string) {
     const getBook = new NormalizedResponse(
