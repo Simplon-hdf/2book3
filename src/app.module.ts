@@ -9,7 +9,7 @@ import { HumanInformationsModule } from './human-informations/human-informations
 import { BorrowersModule } from './borrowers/borrowers.module';
 
 @Module({
-  imports: [EmployeesModule, BooksModule, BorrowsModule, HumanInformationsModule, BorrowersModule],
+  imports: [EmployeesModule, BooksModule, BorrowsModule, HumanInformationsModule, BorrowersModule, AuthorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
