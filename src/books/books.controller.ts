@@ -8,27 +8,22 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Post()
-  create(@Body() createBookDto: CreateBookDto) {
+  public create(@Body() createBookDto: CreateBookDto) {
     return this.booksService.create(createBookDto);
   }
 
-  @Get()
-  findAll() {
-    return this.booksService.findAll();
+  @Get(':uuid')
+  public getByUUID(@Param('uuid') uuid: string) {
+    return this.booksService.getByUUID(uuid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  @Patch(':uuid')
+  public updateByUUID(@Param('uuid') uuid: string, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksService.updateByUUID(updateBookDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.booksService.remove(+id);
+  @Delete(':uuid')
+  public deleteByUUID(@Param('uuid') uuid: string) {
+    return this.booksService.deleteByUUID(uuid);
   }
 }
