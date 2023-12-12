@@ -6,29 +6,31 @@ import { UpdateHumanInformationDto } from './dto/update-human-information.dto';
 @Controller('human-informations')
 export class HumanInformationsController {
   constructor(private readonly humanInformationsService: HumanInformationsService) {}
-
+  
   @Post()
-  create(@Body() createHumanInformationDto: CreateHumanInformationDto) {
+  async create(
+    @Body() createHumanInformationDto: CreateHumanInformationDto
+  ) {
     return this.humanInformationsService.create(createHumanInformationDto);
   }
 
-  @Get()
-  findAll() {
-    return this.humanInformationsService.findAll();
+
+  @Get(':uuid')
+  public getByUUID(@Param('uuid') uuid: string) {
+    return this.humanInformationsService.getByUUID(uuid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.humanInformationsService.findOne(+id);
+  @Patch(':uuid')
+  async update(
+    @Param('uuid') uuid: string,
+    @Body() updateHumanInformationDto: UpdateHumanInformationDto
+  ) {
+    return this.humanInformationsService.updateByUUID(uuid, updateHumanInformationDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHumanInformationDto: UpdateHumanInformationDto) {
-    return this.humanInformationsService.update(+id, updateHumanInformationDto);
-  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.humanInformationsService.remove(+id);
+  @Delete(':uuid')
+  public deleteByUUID(@Param('uuid') uuid: string) {
+    return this.humanInformationsService.deleteByUUID(uuid);
   }
 }
