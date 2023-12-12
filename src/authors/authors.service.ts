@@ -1,26 +1,73 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
-import { UpdateAuthorDto } from './dto/update-author.dto';
+import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
+import { PrismaService } from 'src/prisma.service';
+import NormalizedResponse from '../utils/normalized.response';
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(private readonly prisma: PrismaService) {}
+
+  public async create(createAuthorDto: CreateAuthorDto, createHumanInformationDto: CreateHumanInformationDto) {
+    
+    const createdAuthor = await this.prisma.authors.create({
+      data: {
+        humanInformation: {
+          create: {
+            first_name: createHumanInformationDto.first_name,
+            last_name: createHumanInformationDto.last_name,
+          },
+        },
+      },
+    });
+    const createdMessage = `Author : ${createHumanInformationDto.first_name} ${createHumanInformationDto.last_name} has been created`;
+
+    return new NormalizedResponse(createdMessage,createdAuthor).toJSON()
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  public async getByUUID(uuid: string) {
+    
+    const gettedAuthor = await this.prisma.authors.findUnique({
+      where: {
+        UUID: uuid,
+      },
+    });
+    const gettedMessage = `Author ${uuid} has been found`; 
+
+    return new NormalizedResponse(gettedMessage,gettedAuthor).toJSON();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  public async updateByUUID(uuid: string, updateHumanInformationDto: UpdateHumanInformationDto) {
+    
+    const updatedAuthor = await this.prisma.authors.update({
+      where: {
+        UUID: uuid,
+      },
+      data : {
+        humanInformation: {
+          data: {
+            first_name: updateHumanInformationDto.first_name,
+            last_name: updateHumanInformationDto.last_name,
+          },
+        },
+      },
+    });
+    const updatedMessage = `The author ${uuid} has been updated`;
+    
+    return new NormalizedResponse(updatedMessage,updatedAuthor);
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  public async deleteByUUID(uuid: string) {
+    
+    const deletedAuthor = await this.prisma.authors.delete({
+      where: {
+        UUID: uuid,
+      },
+    });
+    const deletedMessage = `The author ${uuid} has been deleted`;
+    
+    return new NormalizedResponse(deletedMessage,deletedAuthor);
   }
 }
+
