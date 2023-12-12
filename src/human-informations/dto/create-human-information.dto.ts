@@ -9,7 +9,7 @@ export class CreateHumanInformationDto {
   })
   @IsUUID()
   @Length(36, 36)
-  	private UUID: string;
+  	public UUID: string;
 
   @ApiProperty({
     description: 'This Field represents the name of the person',

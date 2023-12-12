@@ -4,6 +4,7 @@ import { UpdateBorrowerDto } from './dto/update-borrower.dto';
 import { PrismaService } from 'src/prisma.service';
 import NormalizedResponse from 'src/utils/normalized.response';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from '../human-informations/dto/update-human-information.dto';
 
 
 
@@ -16,7 +17,7 @@ export class BorrowersService {
       `Borrower ${createHumanInformationDto.first_name} ${createHumanInformationDto.last_name} has been created`,
       await this.prisma.borrowers.create({
         data: {
-          borrower_UUID: createBorrowerDto.UUID,
+          UUID: createBorrowerDto.UUID,
           humanInformation: {
             create: {
               first_name: createHumanInformationDto.first_name,
@@ -43,16 +44,18 @@ export class BorrowersService {
   };
 
 
-  public async updateByUUID(createBorrowerDto: CreateBorrowerDto, createHumanInformationDto : CreateHumanInformationDto) {
+  public async updateByUUID(UpdateBorrowerDto: UpdateBorrowerDto, UpdateHumanInformationDto : UpdateHumanInformationDto) {
     const updateBorrower = new NormalizedResponse(
       `Borrower has been update`,
       await this.prisma.borrowers.update({
+        where: {
+          UUID: UpdateBorrowerDto.UUID,
+        },
         data: {
-          borrower_UUID: createBorrowerDto.UUID,
           humanInformation: {
             create: {
-              first_name: createHumanInformationDto.first_name,
-              last_name: createHumanInformationDto.last_name,
+              first_name: UpdateHumanInformationDto.first_name,
+              last_name: UpdateHumanInformationDto.last_name,
             },
           },
         }
