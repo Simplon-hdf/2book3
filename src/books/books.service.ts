@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-
+import { PrismaService } from 'src/prisma.service';
+import NormalizedResponse from 'src/utils/normalized.response';
 @Injectable()
 export class BooksService {
-  create(createBookDto: CreateBookDto) {
-    return 'This action adds a new book';
-  }
+  constructor(private readonly prisma: PrismaService) { }
 
-  findAll() {
-    return `This action returns all books`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
-  }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
-  }
+
+  
+  public async getByUUID(uuid: string) {
+    const getBook = new NormalizedResponse(
+      `Borrower ${uuid} has been get`,
+      await this.prisma.book.findUnique({
+        where: {
+          UUID: uuid,
+        },
+      }),
+    );
+    return getBook.toJSON();
+  };
+
+  public async deleteByUUID(uuid: string) {
+    const deleteBook = new NormalizedResponse(
+      `Borrower ${uuid} has been delete`,
+      await this.prisma.books.delete({
+        where: {
+          UUID: uuid,
+        },
+      }),
+    );
+    return deleteBook.toJSON();
+  };
 }
