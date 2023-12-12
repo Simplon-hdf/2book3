@@ -44,9 +44,9 @@ export class AuthorsService {
       where: {
         UUID: uuid,
       },
-      data : {
+      data: {
         humanInformation: {
-          data: {
+          update: {
             first_name: updateHumanInformationDto.first_name,
             last_name: updateHumanInformationDto.last_name,
           },
