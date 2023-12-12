@@ -3,11 +3,11 @@ import { IsDate, IsInt, Length } from 'class-validator';
 
 export class CreateBorrowDto {
 
-    @ApiProperty({
-        description: 'This field represents the borrowing start',
-        minLength: 1,
-        maxLength: 20,
-      })
+  @ApiProperty({
+    description: 'This field represents the borrowing start',
+    minLength: 1,
+    maxLength: 20,
+    })
   @IsDate()
   @Length(1, 20)
  public  started_at: string;
