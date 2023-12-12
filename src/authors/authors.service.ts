@@ -1,26 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class AuthorsService {
-  create(createAuthorDto: CreateAuthorDto) {
-    return 'This action adds a new author';
+  constructor(private readonly prisma: PrismaService) {}
+
+  public async create(createAuthorDto: CreateAuthorDto) {
+    return await this.prisma.authors.create({
+      data: {
+        firstname: createAuthorDto.firstName,
+        lastname: createAuthorDto.lastName,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all authors`;
+  public async getByUUID(uuid: string) {
+    return await this.prisma.authors.getByUUID({
+      where: {
+        UUID: uuid,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} author`;
+  public async updateByUUID(uuid: string, updateAuthorDto: UpdateAuthorDto) {
+    return await this.prisma.authors.updateByUUID({
+      where: {
+        UUID: uuid,
+      },
+      data : {
+        firstname: updateAuthorDto.firstName,
+        lastname: updateAuthorDto.lastName,
+      }
+    });
   }
 
-  update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return `This action updates a #${id} author`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} author`;
+  public async deleteByUUID(uuid: string) {
+    return await this.prisma.authors.deleteByUUID({
+      where: {
+        UUID: uuid,
+      },
+    });
   }
 }
+
