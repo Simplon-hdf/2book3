@@ -3,6 +3,8 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { PrismaService } from 'src/prisma.service';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
+
 
 @Injectable()
 export class EmployeeService {
@@ -24,19 +26,38 @@ export class EmployeeService {
       },
     });
   }
-  findAll() {
-    return `This action returns all employees`;
+
+  public async getByUUID(uuid: string) {
+    return await this.prisma.employees.findUnique({
+      where: {
+        UUID: uuid,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
-  }
+  public async update(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
+    await this.prisma.humanInformations.update({
+        where: { UUID: uuid },
+        data: {
+            first_name: updateHumanInformationDto.first_name,
+            last_name: updateHumanInformationDto.last_name,
+        },
+    });
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
-  }
+    return await this.prisma.employees.update({
+        where: { UUID: uuid },
+        data: {
+            mail_address: updateEmployeeDto.mail,
+            password: updateEmployeeDto.password,
+        },
+    });
+}
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
-  }
+public async deleteByUUID(uuid: string) {
+  return await this.prisma.employees.delete({
+    where: {
+      UUID: uuid,
+    },
+  });
+}
 }
