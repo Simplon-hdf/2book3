@@ -1,8 +1,7 @@
-import { ENTRY_PROVIDER_WATERMARK } from '@nestjs/common/constants';
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsInt, IsUUID, Length } from 'class-validator';
+import { IsDate, IsInt, Length } from 'class-validator';
 
-export class CreateBorrowsDto {
+export class CreateBorrowDto {
 
     @ApiProperty({
         description: 'This field represents the borrowing start',
