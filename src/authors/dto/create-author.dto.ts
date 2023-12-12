@@ -5,7 +5,7 @@ import { IsUUID, IsString, Length } from "class-validator"
 export class CreateAuthorDto {
 
     @ApiProperty({
-        description: 'This Field represents the book UUID',
+        description: 'This Field represents the author UUID',
         minLength: 36,
         maxLength: 36,
     })
