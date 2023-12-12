@@ -50,7 +50,7 @@ import * as bcrypt from 'bcrypt';
     }
     
 
-    public async update(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
+    public async updateByUUID(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
       await this.prisma.humanInformations.update({
         where: { UUID: uuid },
         data: {

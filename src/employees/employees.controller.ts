@@ -1,34 +1,31 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { EmployeesService } from './employees.service';
+import { EmployeeService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
 
 @Controller('employees')
 export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+  constructor(private readonly employeesService: EmployeeService) {}
 
   @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeesService.create(createEmployeeDto);
+  public async create(@Body() createEmployeeDto: CreateEmployeeDto, @Body() CreateHumanInformationDto: CreateHumanInformationDto) {
+    return this.employeesService.create(createEmployeeDto, CreateHumanInformationDto);
   }
 
-  @Get()
-  findAll() {
-    return this.employeesService.findAll();
+  @Get(':uuid')
+  public async getByUUID(@Param('uuid') uuid: string) {
+    return this.employeesService.getByUUID(uuid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.employeesService.findOne(+id);
+  @Patch(':uuid')
+  public async updateByUUID(@Param('uuid') uuid: string, @Body() updateEmployeeDto: UpdateEmployeeDto, @Body() UpdateHumanInformationDto: UpdateHumanInformationDto) {
+    return this.employeesService.updateByUUID(uuid, updateEmployeeDto, UpdateHumanInformationDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
-    return this.employeesService.update(+id, updateEmployeeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.employeesService.remove(+id);
+  @Delete(':uuid')
+  public async deleteByUUID(@Param('uuid') uuid: string) {
+    return this.employeesService.deleteByUUID(uuid);
   }
 }
