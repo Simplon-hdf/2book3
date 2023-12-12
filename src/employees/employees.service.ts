@@ -4,7 +4,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { PrismaService } from 'src/prisma.service';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
-import  NormalizedResponse from "utils/normalized.response";
+import  NormalizedResponse from "src/utils/normalized.response";
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { CreateAuthorDto } from './dto/create-author.dto';
 import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
 import { PrismaService } from 'src/prisma.service';
-import NormalizedResponse from '../../utils/normalized.response';
+import NormalizedResponse from '../utils/normalized.response';
 
 @Injectable()
 export class AuthorsService {
