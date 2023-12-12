@@ -41,7 +41,7 @@ public async getByUUID(uuid: string) {
   return new NormalizedResponse(`Human found with UUID: ${uuid}`, HumanInformation).toJSON();
 }
 
-public async update(uuid: string,updateHumanInformationDto: UpdateHumanInformationDto) {
+public async updateByUUID(uuid: string,updateHumanInformationDto: UpdateHumanInformationDto) {
   await this.prisma.humanInformations.update({
     where: { UUID: uuid },
     data: {

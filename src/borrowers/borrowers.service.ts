@@ -44,18 +44,18 @@ export class BorrowersService {
   };
 
 
-  public async updateByUUID(UpdateBorrowerDto: UpdateBorrowerDto, UpdateHumanInformationDto : UpdateHumanInformationDto) {
+  public async updateByUUID(updateBorrowerDto: UpdateBorrowerDto, updateHumanInformationDto : UpdateHumanInformationDto) {
     const updateBorrower = new NormalizedResponse(
       `Borrower has been update`,
       await this.prisma.borrowers.update({
         where: {
-          UUID: UpdateBorrowerDto.UUID,
+          UUID: updateBorrowerDto.UUID,
         },
         data: {
           humanInformation: {
             update: {
-              first_name: UpdateHumanInformationDto.first_name,
-              last_name: UpdateHumanInformationDto.last_name,
+              first_name: updateHumanInformationDto.first_name,
+              last_name: updateHumanInformationDto.last_name,
             },
           },
         }
