@@ -19,14 +19,14 @@ model HumanInformations {
 model Authors {
   UUID               String             @id @default(uuid())
   humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
   Books              Books[]
 }
 
 model Borrowers {
   UUID               String             @id @default(uuid())
   humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
   Borrows            Borrows[]
 }
 
@@ -35,7 +35,7 @@ model Employees {
   mail_address       String             @db.VarChar(80)
   password           String             @db.VarChar(72)
   humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID])
+  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
   Borrows            Borrows[]
 }
 
