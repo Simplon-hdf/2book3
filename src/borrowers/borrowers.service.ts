@@ -54,8 +54,8 @@ export class BorrowersService {
         data: {
           humanInformation: {
             update: {
-              first_name: updateHumanInformationDto.first_name,
-              last_name: updateHumanInformationDto.last_name,
+              first_name: UpdateHumanInformationDto.first_name,
+              last_name: UpdateHumanInformationDto.last_name,
             },
           },
         }
