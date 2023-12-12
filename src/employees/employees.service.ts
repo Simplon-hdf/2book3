@@ -5,9 +5,11 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
 import  NormalizedResponse from "src/utils/normalized.response";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
   export class EmployeeService {
+    private saltGenRound = 12;
     constructor(private readonly prisma: PrismaService) {}
   
     public async create(createEmployeeDto: CreateEmployeeDto, createHumanInformationDto: CreateHumanInformationDto) {
@@ -21,7 +23,7 @@ import  NormalizedResponse from "src/utils/normalized.response";
       const employee = await this.prisma.employees.create({
         data: {
           mail_address: createEmployeeDto.mail,
-          password: createEmployeeDto.password,
+          password: await bcrypt.hash(createEmployeeDto.password, this.saltGenRound),
           humanInformation_uuid: humanInformation.UUID,
         },
       });
