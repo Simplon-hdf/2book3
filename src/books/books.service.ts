@@ -4,7 +4,6 @@ import { UpdateBookDto } from './dto/update-book.dto';
 import { PrismaService } from 'src/prisma.service';
 import NormalizedResponse from 'src/utils/normalized.response';
 
-
 @Injectable()
 export class BooksService {
   constructor(private readonly prisma: PrismaService) { }
@@ -14,58 +13,56 @@ export class BooksService {
       `Book ${createBookDto.name} has been created`,
       await this.prisma.books.create({
         data: {
-          uuid: createBookDto.UUID,
+          UUID: createBookDto.UUID,
           name: createBookDto.name,
           description: createBookDto.description,
-          author_UUID: {
+          author: {
             connect: {
-              author_UUID: createBookDto.author_UUID,
+              UUID: createBookDto.author_UUID,
             },
           },
-          borrow_UUID: {
+          borrow: createBookDto.borrow_UUID ? {
             connect: {
-              borrow_UUID: createBookDto.borrow_UUID,
+              UUID: createBookDto.borrow_UUID,
             },
-          }
+          } : undefined,
         },
-      },
-      )
+      }),
     );
     return createBook.toJSON();
   }
 
-  public async updateByUUID(updateBookDto: UpdateBookDto) {
+  public async updateByUUID(uuid: string, updateBookDto: UpdateBookDto) {
     const updateBook = new NormalizedResponse(
-      `Book has been update`,
-      await this.prisma.borrowers.update({
-        Where: {
-          uuid: updateBookDto.UUID,
+      `Book has been updated`,
+      await this.prisma.books.update({
+        where: {
+          UUID: uuid,
         },
         data: {
           name: updateBookDto.name,
           description: updateBookDto.description,
-        }
-      }
-      ),
+        },
+      }),
     );
     return updateBook.toJSON();
-  };
+  }
 
   public async getByUUID(uuid: string) {
     const getBook = new NormalizedResponse(
-      `Borrower ${uuid} has been get`,
-      await this.prisma.book.findUnique({
+      `Book with UUID ${uuid} has been retrieved`,
+      await this.prisma.books.findUnique({
         where: {
           UUID: uuid,
         },
       }),
     );
     return getBook.toJSON();
-  };
+  }
 
   public async deleteByUUID(uuid: string) {
     const deleteBook = new NormalizedResponse(
-      `Borrower ${uuid} has been delete`,
+      `Book with UUID ${uuid} has been deleted`,
       await this.prisma.books.delete({
         where: {
           UUID: uuid,
@@ -73,5 +70,5 @@ export class BooksService {
       }),
     );
     return deleteBook.toJSON();
-  };
+  }
 }
