@@ -9,7 +9,7 @@ export class CreateHumanInformationDto {
   })
   @IsUUID()
   @Length(36, 36)
-  	private UUID:'string';
+  	private UUID: string;
 
   @ApiProperty({
     description: 'This Field represents the name of the person',
@@ -18,7 +18,7 @@ export class CreateHumanInformationDto {
   })
   @IsString()
   @Length(2, 20)
-  	public first_name:'string';
+  	public first_name: string;
 
   @ApiProperty({
     description: "This Field represents the last name of the person",
@@ -27,5 +27,5 @@ export class CreateHumanInformationDto {
     })
   @IsString()
   @Length(2, 30)
-  	public last_name: 'string';
+  	public last_name: string;
 }
