@@ -11,7 +11,7 @@ export class CreateAuthorDto {
     })
     @IsUUID()
     @Length(36, 36)
-    private UUID: string;
+    public UUID: string;
 
     @ApiProperty({
         description: 'This field represents the authors firstname',

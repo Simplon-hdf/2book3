@@ -33,7 +33,7 @@ export class AuthorsService {
         UUID: uuid,
       },
     });
-    const gettedMessage = `Author ${uuid} has been found`; 
+    const gettedMessage = `Author ${uuid} has been found`;
 
     return new NormalizedResponse(gettedMessage,gettedAuthor).toJSON();
   }
@@ -44,7 +44,7 @@ export class AuthorsService {
       where: {
         UUID: uuid,
       },
-      data : {
+      data: {
         humanInformation: {
           update: {
             first_name: updateHumanInformationDto.first_name,
@@ -70,4 +70,3 @@ export class AuthorsService {
     return new NormalizedResponse(deletedMessage,deletedAuthor);
   }
 }
-
