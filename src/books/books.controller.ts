@@ -19,7 +19,7 @@ export class BooksController {
 
   @Patch(':uuid')
   public updateByUUID(@Param('uuid') uuid: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.updateByUUID(updateBookDto);
+    return this.booksService.updateByUUID(uuid, updateBookDto);
   }
 
   @Delete(':uuid')
@@ -27,3 +27,4 @@ export class BooksController {
     return this.booksService.deleteByUUID(uuid);
   }
 }
+
