@@ -13,28 +13,23 @@ import * as bcrypt from 'bcrypt';
     constructor(private readonly prisma: PrismaService) {}
   
     public async create(createEmployeeDto: CreateEmployeeDto, createHumanInformationDto: CreateHumanInformationDto) {
-      const humanInformation = await this.prisma.humanInformations.create({
-        data: {
-          first_name: createHumanInformationDto.first_name,
-          last_name: createHumanInformationDto.last_name,
-        },
+      const createdEmployee = await this.prisma.employees.create({
+          data: {
+              mail_address: createEmployeeDto.mail,
+              password: await bcrypt.hash(createEmployeeDto.password, this.saltGenRound),
+              humanInformation: {
+                  create: {
+                      first_name: createHumanInformationDto.first_name,
+                      last_name: createHumanInformationDto.last_name,
+                  },
+              },
+          },
       });
   
-      const employee = await this.prisma.employees.create({
-        data: {
-          mail_address: createEmployeeDto.mail,
-          password: await bcrypt.hash(createEmployeeDto.password, this.saltGenRound),
-          humanInformation_uuid: humanInformation.UUID,
-        },
-      });
+      const createdMessage = `Employee: ${createHumanInformationDto.first_name} ${createHumanInformationDto.last_name} has been created`;
+      return new NormalizedResponse(createdMessage, createdEmployee).toJSON();
+  }
   
-      const createEmployeeResponse = new NormalizedResponse(
-        `Employee ${employee.UUID} has been created`,
-        employee
-      );
-      return createEmployeeResponse.toJSON();
-    }
-
     public async getByUUID(uuid: string) {
       const employee = await this.prisma.employees.findUnique({
         where: {
@@ -49,28 +44,27 @@ import * as bcrypt from 'bcrypt';
       return new NormalizedResponse(`Employee found with UUID: ${uuid}`, employee).toJSON();
     }
     
-
     public async updateByUUID(uuid: string, updateEmployeeDto: UpdateEmployeeDto, updateHumanInformationDto: UpdateHumanInformationDto) {
       await this.prisma.humanInformations.update({
-        where: { UUID: uuid },
-        data: {
-          first_name: updateHumanInformationDto.first_name,
-          last_name: updateHumanInformationDto.last_name,
-        },
+          where: { UUID: uuid },
+          data: {
+              first_name: updateHumanInformationDto.first_name,
+              last_name: updateHumanInformationDto.last_name,
+          },
       });
-    
+  
       const updatedEmployee = await this.prisma.employees.update({
-        where: { UUID: uuid },
-        data: {
-          mail_address: updateEmployeeDto.mail,
-          password: await bcrypt.hash(updateEmployeeDto.password, this.saltGenRound),
-        },
+          where: { UUID: uuid },
+          data: {
+              mail_address: updateEmployeeDto.mail,
+              password: await bcrypt.hash(updateEmployeeDto.password, this.saltGenRound),
+          },
       });
-    
-      return new NormalizedResponse(`Employee updated with UUID: ${uuid}`, updatedEmployee).toJSON();
-    }
-    
-
+  
+      const updatedMessage = `Employee updated with UUID: ${uuid}`;
+      return new NormalizedResponse(updatedMessage, updatedEmployee).toJSON();
+  }
+  
     public async deleteByUUID(uuid: string) {
       const deletedEmployee = await this.prisma.employees.delete({
         where: {
