@@ -3,15 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateHumanInformationDto {
   @ApiProperty({
-    description: 'This Field represents the human UUID',
-    minLength: 36,
-    maxLength: 36,
-  })
-  @IsUUID()
-  @Length(36, 36)
-  	public UUID: string;
-
-  @ApiProperty({
     description: 'This Field represents the name of the person',
     minLength: 2,
     maxLength: 20,

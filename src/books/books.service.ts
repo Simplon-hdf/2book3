@@ -13,7 +13,6 @@ export class BooksService {
       `Book ${createBookDto.name} has been created`,
       await this.prisma.books.create({
         data: {
-          UUID: createBookDto.UUID,
           name: createBookDto.name,
           description: createBookDto.description,
           author: {
