@@ -1,7 +1,6 @@
 
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, Length, IsUUID } from "class-validator";
+import { CreateHumanInformationDto } from "src/human-informations/dto/create-human-information.dto";
 
-export class CreateBorrowerDto {
+export class CreateBorrowerDto extends CreateHumanInformationDto{
 
 }
