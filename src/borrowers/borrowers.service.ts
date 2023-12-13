@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBorrowerDto } from './dto/create-borrower.dto';
 import { UpdateBorrowerDto } from './dto/update-borrower.dto';
-import { PrismaService } from 'src/prisma.service';
-import NormalizedResponse from 'src/utils/normalized.response';
+import { PrismaService } from '../prisma.service';
+import NormalizedResponse from '../utils/normalized.response';
 import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from '../human-informations/dto/update-human-information.dto';
 
