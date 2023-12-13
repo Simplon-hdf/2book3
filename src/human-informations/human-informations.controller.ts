@@ -9,9 +9,10 @@ export class HumanInformationsController {
   
   @Post()
   async create(
+    @Param('UUID') uuid: string, 
     @Body() createHumanInformationDto: CreateHumanInformationDto
   ) {
-    return this.humanInformationsService.create(createHumanInformationDto);
+    return this.humanInformationsService.create(uuid, createHumanInformationDto);
   }
 
 

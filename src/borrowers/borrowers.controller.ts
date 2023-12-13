@@ -11,10 +11,10 @@ export class BorrowersController {
 
   @Post()
   async create(
-    @Body() createBorrowerDto: CreateBorrowerDto,
+    @Param('uuid') uuid: string,
     @Body() createHumanInformationDto: CreateHumanInformationDto
   ) {
-    return this.borrowersService.create(createBorrowerDto, createHumanInformationDto);
+    return this.borrowersService.create(uuid ,  createHumanInformationDto);
   }
 
   @Get(':uuid')
@@ -25,10 +25,9 @@ export class BorrowersController {
   @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
-    @Body() updateBorrowerDto: UpdateBorrowerDto,
-    @Body() updateHumanInformationDto: UpdateHumanInformationDto
+       @Body() updateHumanInformationDto: UpdateHumanInformationDto
   ) {
-    return this.borrowersService.updateByUUID(updateBorrowerDto, updateHumanInformationDto);
+    return this.borrowersService.updateByUUID(uuid, updateHumanInformationDto);
   }
 
   @Delete(':uuid')
