@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import NormalizedResponse from '../utils/normalized.response';
 
 @Injectable()
