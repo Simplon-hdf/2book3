@@ -8,13 +8,9 @@ export class HumanInformationsController {
   constructor(private readonly humanInformationsService: HumanInformationsService) {}
   
   @Post()
-  async create(
-    @Param('UUID') uuid: string, 
-    @Body() createHumanInformationDto: CreateHumanInformationDto
-  ) {
-    return this.humanInformationsService.create(uuid, createHumanInformationDto);
+  async create(@Body() createHumanInformationDto: CreateHumanInformationDto) {
+    return this.humanInformationsService.create(createHumanInformationDto);
   }
-
 
   @Get(':uuid')
   public getByUUID(@Param('uuid') uuid: string) {
@@ -28,7 +24,6 @@ export class HumanInformationsController {
   ) {
     return this.humanInformationsService.updateByUUID(uuid, updateHumanInformationDto);
   }
-
 
   @Delete(':uuid')
   public deleteByUUID(@Param('uuid') uuid: string) {
