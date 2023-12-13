@@ -9,7 +9,7 @@ import { addDays, format } from 'date-fns';
 export class BorrowsService {
     constructor (private readonly prisma: PrismaService){}
 
-  public async create(createBorrowDto: CreateBorrowDto) {
+  public async create(uuid: string, createBorrowDto: CreateBorrowDto) {
     const endAt = addDays(new Date(createBorrowDto.started_at), 7);
     const formattedEndAt = format(endAt, 'dd-MM-yyyy');
 
@@ -22,12 +22,12 @@ export class BorrowsService {
           status: createBorrowDto.status,
           employee: {
             connect: {
-              UUID: createBorrowDto.employee_uuid,
+              UUID: uuid,
             },
           },
           borrower: {
             connect: {
-              UUID: createBorrowDto.borrower_uuid,
+              UUID: uuid,
             },
           },
         },

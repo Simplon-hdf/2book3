@@ -12,12 +12,12 @@ import { UpdateHumanInformationDto } from '../human-informations/dto/update-huma
 export class BorrowersService {
   constructor(private readonly prisma: PrismaService) { }
 
-  public async create(createBorrowerDto: CreateBorrowerDto, createHumanInformationDto: CreateHumanInformationDto) {
+  public async create(uuid: string, createHumanInformationDto: CreateHumanInformationDto) {
     const createdBorrower = new NormalizedResponse(
       `Borrower ${createHumanInformationDto.first_name} ${createHumanInformationDto.last_name} has been created`,
       await this.prisma.borrowers.create({
         data: {
-          UUID: createBorrowerDto.UUID,
+          UUID: uuid,
           humanInformation: {
             create: {
               first_name: createHumanInformationDto.first_name,
@@ -44,12 +44,12 @@ export class BorrowersService {
   };
 
 
-  public async updateByUUID(updateBorrowerDto: UpdateBorrowerDto, updateHumanInformationDto : UpdateHumanInformationDto) {
+  public async updateByUUID(uuid: string, updateHumanInformationDto : UpdateHumanInformationDto) {
     const updateBorrower = new NormalizedResponse(
       `Borrower has been update`,
       await this.prisma.borrowers.update({
         where: {
-          UUID: updateBorrowerDto.UUID,
+          UUID: uuid,
         },
         data: {
           humanInformation: {

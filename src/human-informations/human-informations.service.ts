@@ -9,13 +9,13 @@ import { HumanInformation } from './entities/human-information.entity';
 export class HumanInformationsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async create(createHumanInformationDto: CreateHumanInformationDto) {
+  public async create(uuid: string, createHumanInformationDto: CreateHumanInformationDto) {
     try {
       const humanInformation = await this.prisma.humanInformations.create({
         data: {
           first_name: createHumanInformationDto.first_name,
           last_name: createHumanInformationDto.last_name,
-          UUID: createHumanInformationDto.UUID,
+          UUID: uuid,
         },
       });
 
@@ -47,7 +47,7 @@ public async updateByUUID(uuid: string,updateHumanInformationDto: UpdateHumanInf
     data: {
       first_name: updateHumanInformationDto.first_name,
       last_name: updateHumanInformationDto.last_name,
-      UUID: updateHumanInformationDto.UUID,
+      UUID: uuid,
     },
   });
 

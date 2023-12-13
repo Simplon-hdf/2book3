@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { PrismaService } from '../prisma.service';
-import NormalizedResponse from '../utils/normalized.response';
+import { PrismaService } from 'src/prisma.service';
+import NormalizedResponse from 'src/utils/normalized.response';
 
 @Injectable()
 export class BooksService {
@@ -13,7 +13,6 @@ export class BooksService {
       `Book ${createBookDto.name} has been created`,
       await this.prisma.books.create({
         data: {
-          UUID: createBookDto.UUID,
           name: createBookDto.name,
           description: createBookDto.description,
           author: {

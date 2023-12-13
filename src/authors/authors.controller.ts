@@ -9,12 +9,13 @@ export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
   @Post()
-  create(@Body() createAuthorDto: CreateAuthorDto , createHumanInformationDto: CreateHumanInformationDto) {
-    return this.authorsService.create(createAuthorDto , createHumanInformationDto);
+  create(@Body() createAuthorDto: CreateAuthorDto) {
+    return this.authorsService.create(createAuthorDto );
   }
 
   @Get(':uuid')
-  getByUUID(@Param('uuid') uuid: string) {
+  getByUUID(
+    @Param('uuid') uuid: string) {
     return this.authorsService.getByUUID(uuid);
   }
 

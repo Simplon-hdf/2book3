@@ -8,8 +8,11 @@ export class BorrowsController {
   constructor(private readonly borrowsService: BorrowsService) {}
 
   @Post()
-  create(@Body() createBorrowDto: CreateBorrowDto) {
-    return this.borrowsService.create(createBorrowDto);
+  create(
+    @Param('UUID') UUID: string, 
+    @Body() createBorrowDto: CreateBorrowDto)
+   {
+    return this.borrowsService.create(UUID, createBorrowDto);
   }
 
   @Get()
