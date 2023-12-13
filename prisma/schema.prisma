@@ -8,45 +8,45 @@ datasource db {
 }
 
 model HumanInformations {
-  UUID        String        @id @default(uuid())
-  first_name  String        @db.VarChar(20)
-  last_name   String        @db.VarChar(30)
-  Authors     Authors[]
-  Borrowers   Borrowers[]
-  Employees   Employees[]
+  UUID       String      @id @default(uuid())
+  first_name String      @db.VarChar(20)
+  last_name  String      @db.VarChar(30)
+  Authors    Authors[]
+  Borrowers  Borrowers[]
+  Employees  Employees[]
 }
 
 model Authors {
-  UUID               String             @id @default(uuid())
-  humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
-  Books              Books[]
+  UUID                  String            @id @default(uuid())
+  humanInformation_uuid String            @unique
+  humanInformation      HumanInformations @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
+  Books                 Books[]
 }
 
 model Borrowers {
-  UUID               String             @id @default(uuid())
-  humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
-  Borrows            Borrows[]
+  UUID                  String            @id @default(uuid())
+  humanInformation_uuid String            @unique
+  humanInformation      HumanInformations @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
+  Borrows               Borrows[]
 }
 
 model Employees {
-  UUID               String             @id @default(uuid())
-  mail_address       String             @db.VarChar(80)
-  password           String             @db.VarChar(72)
-  humanInformation_uuid String             @unique
-  humanInformation   HumanInformations  @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
-  Borrows            Borrows[]
+  UUID                  String            @id @default(uuid())
+  mail_address          String            @db.VarChar(80)
+  password              String            @db.VarChar(72)
+  humanInformation_uuid String            @unique
+  humanInformation      HumanInformations @relation(fields: [humanInformation_uuid], references: [UUID], onDelete: Cascade)
+  Borrows               Borrows[]
 }
 
 model Books {
-  UUID          String   @id @default(uuid())
-  name          String   @db.VarChar(40)
-  description   String
-  author_uuid      String
-  borrow_uuid      String?
-  author        Authors  @relation(fields: [author_uuid], references: [UUID])
-  borrow        Borrows?  @relation(fields: [borrow_uuid], references: [UUID])
+  UUID        String   @id @default(uuid())
+  name        String   @db.VarChar(40)
+  description String
+  author_uuid String
+  borrow_uuid String?
+  author      Authors  @relation(fields: [author_uuid], references: [UUID])
+  borrow      Borrows? @relation(fields: [borrow_uuid], references: [UUID])
 }
 
 model Borrows {
@@ -54,8 +54,8 @@ model Borrows {
   status        borrowState @default(ONGOING)
   started_at    DateTime    @default(now())
   end_at        DateTime    @db.Date
-  employee_uuid    String
-  borrower_uuid    String
+  employee_uuid String
+  borrower_uuid String
   employee      Employees   @relation(fields: [employee_uuid], references: [UUID])
   borrower      Borrowers   @relation(fields: [borrower_uuid], references: [UUID])
   Books         Books[]
