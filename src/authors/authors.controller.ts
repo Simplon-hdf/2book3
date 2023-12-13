@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
-import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
-import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
+import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from '../human-informations/dto/update-human-information.dto';
 
 @Controller('authors')
 export class AuthorsController {

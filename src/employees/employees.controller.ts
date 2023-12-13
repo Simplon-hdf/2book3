@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { EmployeeService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { CreateHumanInformationDto } from 'src/human-informations/dto/create-human-information.dto';
-import { UpdateHumanInformationDto } from 'src/human-informations/dto/update-human-information.dto';
+import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
+import { UpdateHumanInformationDto } from '../human-informations/dto/update-human-information.dto';
 
 @Controller('employees')
 export class EmployeesController {

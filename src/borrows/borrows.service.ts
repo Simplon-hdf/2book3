@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 import { UpdateBorrowDto } from './dto/update-borrow.dto';
-import NormalizedResponse from 'src/utils/normalized.response';
+import NormalizedResponse from '../utils/normalized.response';
 import { addDays, format } from 'date-fns';
 
 @Injectable()
