@@ -3,73 +3,79 @@ import { PrismaService } from '../prisma.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 import { UpdateBorrowDto } from './dto/update-borrow.dto';
 import NormalizedResponse from '../utils/normalized.response';
-import { addDays, format } from 'date-fns';
+import { addDays } from 'date-fns';
 
 @Injectable()
 export class BorrowsService {
-    constructor (private readonly prisma: PrismaService){}
+  constructor(private readonly prisma: PrismaService) { }
 
-  public async create(uuid: string, createBorrowDto: CreateBorrowDto) {
-    const endAt = addDays(new Date(createBorrowDto.started_at), 7);
-    const formattedEndAt = format(endAt, 'dd-MM-yyyy');
+  public async create(createBorrowDto: CreateBorrowDto) {
+    const started_at = new Date()
+    const endAt = addDays(new Date(started_at), 7);
 
-    const createdBorrow = new NormalizedResponse(
-      `Borrow has been created`,
-      await this.prisma.borrows.create({
-        data: {
-          started_at: createBorrowDto.started_at,
-          end_at: formattedEndAt,
-          status: createBorrowDto.status,
-          employee: {
-            connect: {
-              UUID: uuid,
-            },
-          },
-          borrower: {
-            connect: {
-              UUID: uuid,
-            },
+    const createdBorrow = await this.prisma.borrows.create({
+      data: {
+        started_at: started_at,
+        end_at: endAt,
+        status: "ONGOING",
+        employee: {
+          connect: {
+            UUID: createBorrowDto.employee_uuid,
           },
         },
-      }),
-    );
-    return createdBorrow.toJSON
+        borrower: {
+          connect: {
+            UUID: createBorrowDto.borrower_uuid,
+          },
+        },
+      },
+    })
+    const createMessage = `The borrow has been created`;
+
+    return new NormalizedResponse(createMessage, createdBorrow);
   }
 
   public async getByUUID(uuid: string) {
-    return await this.prisma.borrows.findUnique({
+
+    const gettedBorrow = await this.prisma.borrows.findUnique({
+
       where: {
         UUID: uuid,
       },
     });
+    const gettedMessage = `Borrow ${uuid} has been found`;
+
+    return new NormalizedResponse(gettedMessage, gettedBorrow).toJSON();
   }
 
-  public async updateByUUID(uuid: string, updateBorrowDto: UpdateBorrowDto) {
-    const updatedBorrow = new NormalizedResponse(
-      `Borrow has been updated`,
-        await this.prisma.borrows.update({
+  public async updateByUUID(uuid: string) {
+    const started_at = new Date()
+    const endAt = addDays(new Date(started_at), 7);
+    const updatedBorrow = await this.prisma.borrows.update({
       where: {
         UUID: uuid,
       },
+
       data: {
-        started_at: updateBorrowDto.started_at,
-        end_at: updateBorrowDto.end_at,
-        status: updateBorrowDto.status,
+        started_at: started_at,
+        end_at: endAt,
+         status: "ONGOING",
       },
-    }),
-    );
-    return updatedBorrow.toJSON
+    });
+
+    const updatedMessage = `The borrow ${uuid} has been updated`;
+
+    return new NormalizedResponse(updatedMessage, updatedBorrow);
   }
 
   public async deleteByUUID(uuid: string) {
-    const deletedBorrow = new NormalizedResponse(
-      `Borrow has been deleted`,
-     await this.prisma.borrows.delete({
+    const deletedBorrow = await this.prisma.borrows.delete({
       where: {
         UUID: uuid,
       },
-    }),
-    );
-    return deletedBorrow.toJSON
+    });
+    const deletedMessage = `The borrow ${uuid} has been deleted`;
+
+    return new NormalizedResponse(deletedMessage, deletedBorrow);
   }
 }
