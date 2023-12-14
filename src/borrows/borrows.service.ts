@@ -74,8 +74,6 @@ export class BorrowsService {
   }
 
 
-
-
   public async deleteByUUID(uuid: string) {
     const deletedBorrow = await this.prisma.borrows.delete({
       where: {
