@@ -10,7 +10,7 @@ export class AuthorsController {
 
   @Post()
   create(@Body() createAuthorDto: CreateAuthorDto) {
-    return this.authorsService.create(createAuthorDto );
+    return this.authorsService.create(createAuthorDto);
   }
 
   @Get(':uuid')
