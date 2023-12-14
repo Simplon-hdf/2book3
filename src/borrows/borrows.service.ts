@@ -35,8 +35,6 @@ export class BorrowsService {
     return new NormalizedResponse(createMessage, createdBorrow);
   }
 
-
-
   public async getByUUID(uuid: string) {
 
     const gettedBorrow = await this.prisma.borrows.findUnique({
@@ -49,9 +47,6 @@ export class BorrowsService {
 
     return new NormalizedResponse(gettedMessage, gettedBorrow).toJSON();
   }
-
-
-
 
   public async updateByUUID(uuid: string) {
     const started_at = new Date()
@@ -72,7 +67,6 @@ export class BorrowsService {
 
     return new NormalizedResponse(updatedMessage, updatedBorrow);
   }
-
 
   public async deleteByUUID(uuid: string) {
     const deletedBorrow = await this.prisma.borrows.delete({
