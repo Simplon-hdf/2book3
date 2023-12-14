@@ -54,8 +54,8 @@ export class EmployeesService {
         UUID: uuid,
       },
       data: {
-        mail_address: updateEmployeeDto.mail,
-        password: await bcrypt.hash(updateEmployeeDto.password, this.saltGenRound),
+        // mail_address: updateEmployeeDto.mail,
+        // password: await bcrypt.hash(updateEmployeeDto.password, this.saltGenRound),
         humanInformation: {
           update: {
             first_name: updateEmployeeDto.first_name,

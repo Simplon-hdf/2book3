@@ -3,6 +3,7 @@ import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { CreateHumanInformationDto } from '../human-informations/dto/create-human-information.dto';
 import { UpdateHumanInformationDto } from '../human-informations/dto/update-human-information.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -20,7 +21,7 @@ export class EmployeesController {
 
   @Patch(':uuid')
   updateByUUID(@Param('uuid') uuid: string,
-       @Body() updateHumanInformationDto: UpdateHumanInformationDto
+       @Body() updateHumanInformationDto: UpdateHumanInformationDto,
   ) {
     return this.employeesService.updateByUUID(uuid, updateHumanInformationDto);
   }
