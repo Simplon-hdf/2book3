@@ -9,7 +9,6 @@ export class BorrowsController {
 
   @Post()
   create(
-    // @Param('UUID') uuid: string,
     @Body() createBorrowDto: CreateBorrowDto, ) {
     return this.borrowsService.create(createBorrowDto);
   }
