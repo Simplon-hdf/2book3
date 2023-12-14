@@ -1,4 +1,4 @@
-import { IsString, IsUUID, Length } from 'class-validator';
+import { IsOptional, IsString, IsUUID, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBookDto {
@@ -29,6 +29,7 @@ export class CreateBookDto {
   })
   @IsUUID()
   @Length(36, 36)
+  @IsOptional()
   public borrow_UUID: string;
 
   @ApiProperty({

@@ -10,7 +10,7 @@ export class BooksService {
 
   public async create(createBookDto: CreateBookDto) {
     const createBook = new NormalizedResponse(
-      `Book ${createBookDto.name} has been created`,
+      `Book "${createBookDto.name}" has been created`,
       await this.prisma.books.create({
         data: {
           name: createBookDto.name,
@@ -33,7 +33,7 @@ export class BooksService {
 
   public async updateByUUID(uuid: string, updateBookDto: UpdateBookDto) {
     const updateBook = new NormalizedResponse(
-      `Book has been updated`,
+      `Book "${updateBookDto.name}" has been updated`,
       await this.prisma.books.update({
         where: {
           UUID: uuid,
