@@ -4,7 +4,7 @@
 
 # API interne pour une Médiathéque
 
-Ceci est une API céée pour les employés d'une médiathèque, depuis NestJS.
+Ceci est une API créée pour les employés d'une médiathèque, depuis NestJS.
 
 Docs NestJS  [link to docs NestJS](docs/readmeNest.md) .
 
