@@ -9,29 +9,26 @@ export class BorrowsController {
 
   @Post()
   create(
-    @Param('UUID') UUID: string, 
-    @Body() createBorrowDto: CreateBorrowDto)
-   {
-    return this.borrowsService.create(UUID, createBorrowDto);
+    // @Param('UUID') uuid: string,
+    @Body() createBorrowDto: CreateBorrowDto, ) {
+    return this.borrowsService.create(createBorrowDto);
   }
 
-  @Get()
+  @Get(':uuid')
   public getByUUID(
-  @Param('UUID') uuid: string ) {
+  @Param('uuid') uuid: string ) {
     return this.borrowsService.getByUUID(uuid);
   }
 
-
-  @Patch()
+  @Patch(':uuid')
   updateByUUID(
-    @Param('UUID') UUID: string, 
-    @Body() updateBorrowDto: UpdateBorrowDto) {
-    return this.borrowsService.updateByUUID(UUID, updateBorrowDto);
+    @Param('uuid') uuid: string) {
+    return this.borrowsService.updateByUUID(uuid);
   }
 
-  @Delete()
+  @Delete(':uuid')
   deleteByUUID(
-    @Param('UUID') UUID: string) {
-    return this.borrowsService.deleteByUUID(UUID);
+    @Param('uuid') uuid: string) {
+    return this.borrowsService.deleteByUUID(uuid);
   }
 }

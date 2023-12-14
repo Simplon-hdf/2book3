@@ -51,7 +51,7 @@ model Books {
 
 model Borrows {
   UUID          String      @id @default(uuid())
-  status        borrowState @default(ONGOING)
+  status        borrowState @default(ONGOING) 
   started_at    DateTime    @default(now())
   end_at        DateTime    @db.Date
   employee_uuid String
