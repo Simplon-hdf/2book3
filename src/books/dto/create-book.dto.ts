@@ -39,6 +39,5 @@ export class CreateBookDto {
   })
   @IsUUID()
   @Length(36, 36)
-  @IsOptional()
   public author_UUID: string;
 }
