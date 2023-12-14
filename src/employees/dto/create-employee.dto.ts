@@ -1,15 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsString, Length } from "class-validator"
+import { CreateHumanInformationDto } from "src/human-informations/dto/create-human-information.dto";
 
-export class CreateEmployeeDto {
+export class CreateEmployeeDto extends CreateHumanInformationDto{
 
     @ApiProperty({
         description: 'This field represents the employee password',
-        minLength: 72,
+        minLength: 1,
         maxLength: 72,
       })
     @IsString()
-    @Length(72, 72)
+    @Length(1, 72)
     public password: string;
 
     @ApiProperty({
