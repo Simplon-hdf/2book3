@@ -22,7 +22,7 @@ function initSwagger(app: INestApplication) {
     app,
     SwaggerModule.createDocument(
       app,
-      new DocumentBuilder().addServer('E-Commerce').build(),
+      new DocumentBuilder().addServer('mediatheque').build(),
     ),
   );
 }
